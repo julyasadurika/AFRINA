@@ -1,0 +1,69 @@
+index.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Community Help Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen p-6">
+  <div class="max-w-3xl mx-auto">
+    <h1 class="text-3xl font-bold text-center mb-6">Local Community Help Portal</h1>
+
+    <form id="helpForm" class="bg-white shadow-md rounded-lg p-6 mb-6">
+      <h2 class="text-xl font-semibold mb-4">Post Help Request / Offer</h2>
+      <div class="mb-4">
+        <label class="block text-gray-700">Your Name</label>
+        <input type="text" id="name" class="w-full p-2 border border-gray-300 rounded" required />
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700">Type</label>
+        <select id="type" class="w-full p-2 border border-gray-300 rounded" required>
+          <option value="">Select Type</option>
+          <option value="Request">Request</option>
+          <option value="Offer">Offer</option>
+        </select>
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700">Description</label>
+        <textarea id="description" class="w-full p-2 border border-gray-300 rounded" rows="3" required></textarea>
+      </div>
+      <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Submit</button>
+    </form>
+
+    <div id="postsContainer" class="space-y-4"></div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+
+const form = document.getElementById("helpForm");
+const postsContainer = document.getElementById("postsContainer");
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const name = document.getElementById("name").value.trim();
+  const type = document.getElementById("type").value;
+  const description = document.getElementById("description").value.trim();
+
+  if (!name || !type || !description) {
+    alert("Please fill in all fields.");
+    return;
+  }
+
+  const post = document.createElement("div");
+  post.className =
+    "bg-white p-4 rounded shadow border-l-4 " +
+    (type === "Request" ? "border-red-500" : "border-green-500");
+  post.innerHTML = `
+    <h3 class="text-lg font-bold">${type} from ${name}</h3>
+    <p class="text-gray-700 mt-2">${description}</p>
+  `;
+
+  postsContainer.prepend(post);
+  form.reset();
+});
